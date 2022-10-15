@@ -66,11 +66,7 @@ There are a few things to note, before you play however...
 * World Cards are untouched. (I think)
   This means that your reward for encounters and door requirements should all be the same. (Should...)
   
-* The cards are randomized in their own respective groups. If you are familiar with CoM, this means Red "Attack" cards are shuffled with **each other**, Blue "Magic/Summon" cards are shuffled with **each other**, but not accross groups.
-
-  * This means that you might get Stop as a magic card to start, instead of Cure. 
-  * Or, you might get Oblivion instead of Kingdom key. 
-  * You will **not** get "Gennie Jafar" from a random barrel or be able to play "High-Potion" from your Enemy cards pool. 
+* The cards are randomized to some extent but not entirely random. You'll see most cards shuffled into their own pools, and only some will mix into another pool. (Enemy cards are generally shuffled with enemy cards. But Attack and Magic Cards might cross into each other's pools.)
 
 * As far as I know, there is no "logic" designed into this randomizer, like other randomizers. None is really needed as this pertains to just battle cards, and you can get through most fights in the game, even with weird or *unique* combinations of cards. The whole game (should) be beatable. 
 
