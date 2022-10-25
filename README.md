@@ -91,6 +91,6 @@ He IS the original author of the script and deserves the praise here. I just upl
 
 (If you have any questions or comments, please go ahead and make a new "Issue" here on github. I am new to Github, but will try to respond to what I can, or what I understand about the script. However, please understand that it is also a "What you see, is what you get" scenario. I don't know the intention behind any of the code written, I just had the spare copy reuploaded for the world to see.
 
-I will be making few changes to the Original Code. I have added a branch label "Original Recovered Code" for the original project as I found it, and a "Modified" branch for any modifcations I make to the script.) 
+I will be making few changes to the Original Code. I have added a branch label "Original Recovered Code" for the original project as I found it, the Main Branch and any modified branches will be changes I make to the code.) 
 
 
