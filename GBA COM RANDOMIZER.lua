@@ -96,694 +96,738 @@ oldcards={kingdomkey,threewishes,crabclaw,pumpkinhead,fairyharp,wishingstar,spel
 cards={unpack(oldcards)}
 newcards={}
 
-if (seed==0) then
-	seed=os.time()
+--PROMT FOR SEED NUMBER - JERSH
+function check_seed()
+	seedinput = tonumber(forms.gettext(seedbox))
+	
+	local function err_go_away()
+		forms.destroy(diag_err)
+	end
+	
+	local function diag_go_away()
+		forms.destroy(diag)
+	end
+	
+	if seedinput == nil then
+		diag_err = forms.newform(200, 100, "NOT A NUMBER")
+		forms.label(diag_err, "NOT A NUMBER", 0, 0, 200, 20)
+		forms.label(diag_err, "Only NUMBERS please, try again", 0, 20, 200, 20)
+		forms.button(diag_err, "Ok...", err_go_away, 50, 40, 50, 20)
+	else
+	seed = seedinput
+	diag_go_away()
+	start_rando()
+	end
 end
-print("Seed: "..seed)
-math.randomseed(seed)
-math.random()
-math.random()
-math.random()
 
---TODO(Originally written by Cheeze42):
----Variety of randomization
-----Sleights
-----World cards
-----Human bosses
-----Enemies/enemy encounters
-----Friend cards
-----Heartless bosses??
-----Riku's story:
------Enemy cards
-------Bosses seem to check whether you've obtained the corresponding card, then add the correct card to your deck; not the same as what card actually drops
------Bosses
------World cards
------Set up postgame rewards obtained flags
------Decks?
------Friend cards??
------Enemies/enemy encounters
-----Test 100%
----Menu
-----Set seed
-----Dump codes
-----Prompt for spoilers
-----Decide which things to randomize
-----Save/load
-----Give enemies consistent enemy cards? limits enemies to enemies and bosses to bosses
------Not sure about this, what if all three were set to the same value?
----Clean up code
+diag = forms.newform(200, 140, "Please enter a seed")
+forms.label(diag, "Please enter a valid Seed", 25, 0, 200, 20)
+forms.label(diag, "ONLY NUMBERS, NO LETTERS", 10, 20, 200, 20)
+forms.label(diag, "Leave '0' for random seed", 25, 40, 200, 20)
+seedbox = forms.textbox(diag, "0", 100, 20, "null", 45, 60, false, false)
+forms.button(diag, "Load Seed", check_seed, 45, 80, 100, 20)
+
+--END CHECK SEED NUMBER
+
+function start_rando()
+
+	if (seed==0) then
+		seed=os.time()
+	end
+	print("Seed: "..seed)
+	math.randomseed(seed)
+	math.random()
+	math.random()
+	math.random()
+
+	--TODO(Originally written by Cheeze42):
+	---Variety of randomization
+	----Sleights
+	----World cards
+	----Human bosses
+	----Enemies/enemy encounters
+	----Friend cards
+	----Heartless bosses??
+	----Riku's story:
+	-----Enemy cards
+	------Bosses seem to check whether you've obtained the corresponding card, then add the correct card to your deck; not the same as what card actually drops
+	-----Bosses
+	-----World cards
+	-----Set up postgame rewards obtained flags
+	-----Decks?
+	-----Friend cards??
+	-----Enemies/enemy encounters
+	----Test 100%
+	---Menu
+	----Set seed
+	----Dump codes
+	----Prompt for spoilers
+	----Decide which things to randomize
+	----Save/load
+	----Give enemies consistent enemy cards? limits enemies to enemies and bosses to bosses
+	-----Not sure about this, what if all three were set to the same value?
+	---Clean up code
 
 
-am=0
-sp=0
-bound=24
-total=38
+	am=0
+	sp=0
+	bound=24
+	total=38
 
-defaultattack=table.remove(cards,1)
-am=am+1
+	defaultattack=table.remove(cards,1)
+	am=am+1
 
-defaultmagic=cure
-while defaultmagic==cure or defaultmagic==blizzard do
-	i=math.random(17,23)
-	defaultmagic=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	defaultmagic=cure
+	while defaultmagic==cure or defaultmagic==blizzard do
+		i=math.random(17,23)
+		defaultmagic=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-defaultitem=potion
-while defaultitem==potion do
-	i=math.random(30,total-(am+sp))
-	defaultitem=cards[i]
-end
-table.remove(cards,i)
-sp=sp+1
+	defaultitem=potion
+	while defaultitem==potion do
+		i=math.random(30,total-(am+sp))
+		defaultitem=cards[i]
+	end
+	table.remove(cards,i)
+	sp=sp+1
 
-defaultwild=blizzard
-while defaultwild==defaultattack or defaultwild==cure or defaultwild==blizzard or defaultwild==defaultmagic do
-	i=math.random(2,bound-am)
-	defaultwild=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	defaultwild=blizzard
+	while defaultwild==defaultattack or defaultwild==cure or defaultwild==blizzard or defaultwild==defaultmagic do
+		i=math.random(2,bound-am)
+		defaultwild=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-leonreward=simba
-while leonreward==simba do
-	i=math.random(bound-am+1,total-(am+sp))
-	leonreward=cards[i]
-end
-table.remove(cards,i)
-sp=sp+1
+	leonreward=simba
+	while leonreward==simba do
+		i=math.random(bound-am+1,total-(am+sp))
+		leonreward=cards[i]
+	end
+	table.remove(cards,i)
+	sp=sp+1
 
-traversetownktr=lionheart
-while traversetownktr==lionheart do
-	i=math.random(1,bound-am)
-	traversetownktr=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	traversetownktr=lionheart
+	while traversetownktr==lionheart do
+		i=math.random(1,bound-am)
+		traversetownktr=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-axelreward=fire
-while axelreward==fire do
-	i=math.random(1,bound-am)
-	axelreward=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	axelreward=fire
+	while axelreward==fire do
+		i=math.random(1,bound-am)
+		axelreward=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-agrabahattack=threewishes
-while agrabahattack==threewishes do
-	i=math.random(1,bound-am)
-	agrabahattack=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	agrabahattack=threewishes
+	while agrabahattack==threewishes do
+		i=math.random(1,bound-am)
+		agrabahattack=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-agrabahbounty=gravity
-while agrabahbounty==gravity do
-	i=math.random(1,bound-am)
-	agrabahbounty=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	agrabahbounty=gravity
+	while agrabahbounty==gravity do
+		i=math.random(1,bound-am)
+		agrabahbounty=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-banditreward=ether
-while banditreward==ether do
-	i=math.random(bound-am+1,total-(am+sp))
-	banditreward=cards[i]
-end
-table.remove(cards,i)
-sp=sp+1
+	banditreward=ether
+	while banditreward==ether do
+		i=math.random(bound-am+1,total-(am+sp))
+		banditreward=cards[i]
+	end
+	table.remove(cards,i)
+	sp=sp+1
 
-agrabahreward=genie
-while agrabahreward==genie do
-	i=math.random(bound-am+1,total-(am+sp))
-	agrabahreward=cards[i]
-end
-table.remove(cards,i)
-sp=sp+1
+	agrabahreward=genie
+	while agrabahreward==genie do
+		i=math.random(bound-am+1,total-(am+sp))
+		agrabahreward=cards[i]
+	end
+	table.remove(cards,i)
+	sp=sp+1
 
-olympusattack=olympia
-while olympusattack==olympia do
-	i=math.random(1,bound-am)
-	olympusattack=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	olympusattack=olympia
+	while olympusattack==olympia do
+		i=math.random(1,bound-am)
+		olympusattack=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-cloudreward=hipotion
-while cloudreward==hipotion do
-	i=math.random(bound-am+1,total-(am+sp))
-	cloudreward=cards[i]
-end
-table.remove(cards,i)
-sp=sp+1
+	cloudreward=hipotion
+	while cloudreward==hipotion do
+		i=math.random(bound-am+1,total-(am+sp))
+		cloudreward=cards[i]
+	end
+	table.remove(cards,i)
+	sp=sp+1
 
-olympusreward=cloud
-while olympusreward==cloud do
-	i=math.random(bound-am+1,total-(am+sp))
-	olympusreward=cards[i]
-end
-table.remove(cards,i)
-sp=sp+1
+	olympusreward=cloud
+	while olympusreward==cloud do
+		i=math.random(bound-am+1,total-(am+sp))
+		olympusreward=cards[i]
+	end
+	table.remove(cards,i)
+	sp=sp+1
 
-olympusktr=metalchocobo
-while olympusktr==metalchocobo do
-	i=math.random(1,bound-am)
-	olympusktr=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	olympusktr=metalchocobo
+	while olympusktr==metalchocobo do
+		i=math.random(1,bound-am)
+		olympusktr=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-wonderlandattack=ladyluck
-while wonderlandattack==ladyluck do
-	i=math.random(1,bound-am)
-	wonderlandattack=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	wonderlandattack=ladyluck
+	while wonderlandattack==ladyluck do
+		i=math.random(1,bound-am)
+		wonderlandattack=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-wonderlandbounty=stop
-while wonderlandbounty==stop do
-	i=math.random(1,bound-am)
-	wonderlandbounty=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	wonderlandbounty=stop
+	while wonderlandbounty==stop do
+		i=math.random(1,bound-am)
+		wonderlandbounty=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-monstroattack=wishingstar
-while monstroattack==wishingstar do
-	i=math.random(1,bound-am)
-	monstroattack=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	monstroattack=wishingstar
+	while monstroattack==wishingstar do
+		i=math.random(1,bound-am)
+		monstroattack=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-monstroreward=dumbo
-while monstroreward==dumbo do
-	i=math.random(bound-am+1,total-(am+sp))
-	monstroreward=cards[i]
-end
-table.remove(cards,i)
-sp=sp+1
+	monstroreward=dumbo
+	while monstroreward==dumbo do
+		i=math.random(bound-am+1,total-(am+sp))
+		monstroreward=cards[i]
+	end
+	table.remove(cards,i)
+	sp=sp+1
 
-halloweentownattack=pumpkinhead
-while halloweentownattack==pumpkinhead do
-	i=math.random(1,bound-am)
-	halloweentownattack=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	halloweentownattack=pumpkinhead
+	while halloweentownattack==pumpkinhead do
+		i=math.random(1,bound-am)
+		halloweentownattack=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-larxeneireward=thunder
-while larxeneireward==thunder do
-	i=math.random(1,bound-am)
-	larxeneireward=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	larxeneireward=thunder
+	while larxeneireward==thunder do
+		i=math.random(1,bound-am)
+		larxeneireward=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-atlanticaattack=crabclaw
-while atlanticaattack==crabclaw do
-	i=math.random(1,bound-am)
-	atlanticaattack=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	atlanticaattack=crabclaw
+	while atlanticaattack==crabclaw do
+		i=math.random(1,bound-am)
+		atlanticaattack=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-rikuireward=aero
-while rikuireward==aero do
-	i=math.random(1,bound-am)
-	rikuireward=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	rikuireward=aero
+	while rikuireward==aero do
+		i=math.random(1,bound-am)
+		rikuireward=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-neverlandattack=fairyharp
-while neverlandattack==fairyharp do
-	i=math.random(1,bound-am)
-	neverlandattack=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	neverlandattack=fairyharp
+	while neverlandattack==fairyharp do
+		i=math.random(1,bound-am)
+		neverlandattack=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-neverlandreward=tinkerbell
-while neverlandreward==tinkerbell do
-	i=math.random(bound-am+1,total-(am+sp))
-	neverlandreward=cards[i]
-end
-table.remove(cards,i)
-sp=sp+1
+	neverlandreward=tinkerbell
+	while neverlandreward==tinkerbell do
+		i=math.random(bound-am+1,total-(am+sp))
+		neverlandreward=cards[i]
+	end
+	table.remove(cards,i)
+	sp=sp+1
 
-hollowbastionattack=divinerose
-while hollowbastionattack==divinerose do
-	i=math.random(1,bound-am)
-	hollowbastionattack=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	hollowbastionattack=divinerose
+	while hollowbastionattack==divinerose do
+		i=math.random(1,bound-am)
+		hollowbastionattack=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-hollowbastionktr=mushu
-while hollowbastionktr==mushu do
-	i=math.random(bound-am+1,total-(am+sp))
-	hollowbastionktr=cards[i]
-end
-table.remove(cards,i)
-sp=sp+1
+	hollowbastionktr=mushu
+	while hollowbastionktr==mushu do
+		i=math.random(bound-am+1,total-(am+sp))
+		hollowbastionktr=cards[i]
+	end
+	table.remove(cards,i)
+	sp=sp+1
 
-hundredacrewoodattack=spellbinder
-while hundredacrewoodattack==spellbinder do
-	i=math.random(1,bound-am)
-	hundredacrewoodattack=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	hundredacrewoodattack=spellbinder
+	while hundredacrewoodattack==spellbinder do
+		i=math.random(1,bound-am)
+		hundredacrewoodattack=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-hundredacrewoodsummon=bambi
-while hundredacrewoodsummon==bambi do
-	i=math.random(bound-am+1,total-(am+sp))
-	hundredacrewoodsummon=cards[i]
-end
-table.remove(cards,i)
-sp=sp+1
+	hundredacrewoodsummon=bambi
+	while hundredacrewoodsummon==bambi do
+		i=math.random(bound-am+1,total-(am+sp))
+		hundredacrewoodsummon=cards[i]
+	end
+	table.remove(cards,i)
+	sp=sp+1
 
-hundredacrewooditem=elixir
-while hundredacrewooditem==elixir do
-	i=math.random(bound-am+1,total-(am+sp))
-	hundredacrewooditem=cards[i]
-end
-table.remove(cards,i)
-sp=sp+1
+	hundredacrewooditem=elixir
+	while hundredacrewooditem==elixir do
+		i=math.random(bound-am+1,total-(am+sp))
+		hundredacrewooditem=cards[i]
+	end
+	table.remove(cards,i)
+	sp=sp+1
 
-vexenreward=megaether
-while vexenreward==megaether do
-	i=math.random(bound-am+1,total-(am+sp))
-	vexenreward=cards[i]
-end
-table.remove(cards,i)
-sp=sp+1
+	vexenreward=megaether
+	while vexenreward==megaether do
+		i=math.random(bound-am+1,total-(am+sp))
+		vexenreward=cards[i]
+	end
+	table.remove(cards,i)
+	sp=sp+1
 
-destinyislandsreward=oathkeeper
-while destinyislandsreward==oathkeeper do
-	i=math.random(1,bound-am)
-	destinyislandsreward=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	destinyislandsreward=oathkeeper
+	while destinyislandsreward==oathkeeper do
+		i=math.random(1,bound-am)
+		destinyislandsreward=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-destinyislandsktr=megalixir
-while destinyislandsktr==megalixir do
-	i=math.random(bound-am+1,total-(am+sp))
-	destinyislandsktr=cards[i]
-end
-table.remove(cards,i)
-sp=sp+1
+	destinyislandsktr=megalixir
+	while destinyislandsktr==megalixir do
+		i=math.random(bound-am+1,total-(am+sp))
+		destinyislandsktr=cards[i]
+	end
+	table.remove(cards,i)
+	sp=sp+1
 
-rikuiiireward=megapotion
-rikuiiireward=cards[5]
+	rikuiiireward=megapotion
+	rikuiiireward=cards[5]
 
-larxeneiireward=oblivion
-while larxeneiireward==oblivion do
-	i=math.random(1,bound-am)
-	larxeneiireward=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	larxeneiireward=oblivion
+	while larxeneiireward==oblivion do
+		i=math.random(1,bound-am)
+		larxeneiireward=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-postattacka=diamonddust
-while postattacka==diamonddust do
-	i=math.random(1,bound-am)
-	postattacka=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	postattacka=diamonddust
+	while postattacka==diamonddust do
+		i=math.random(1,bound-am)
+		postattacka=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-postattackb=onewingedangel
-while postattackb==onewingedangel do
-	i=math.random(1,bound-am)
-	postattackb=cards[i]
-end
-table.remove(cards,i)
-am=am+1
+	postattackb=onewingedangel
+	while postattackb==onewingedangel do
+		i=math.random(1,bound-am)
+		postattackb=cards[i]
+	end
+	table.remove(cards,i)
+	am=am+1
 
-finalattack=ultimaweapon
-finalattack=cards[1]
-table.remove(cards,i)
+	finalattack=ultimaweapon
+	finalattack=cards[1]
+	table.remove(cards,i)
 
-repeat
-	hasattack = false
-	hasmagic = false
-	haswild = false
-	defaultdeck={}
-	cardindex=1
-	value=math.random(0,4)
-	defaultdeck[1]=defaultitem.id+(value*2)
-	totalcp=defaultitem.cp[(value*2)+1]
-	maxcp=275
+	repeat
+		hasattack = false
+		hasmagic = false
+		haswild = false
+		defaultdeck={}
+		cardindex=1
+		value=math.random(0,4)
+		defaultdeck[1]=defaultitem.id+(value*2)
+		totalcp=defaultitem.cp[(value*2)+1]
+		maxcp=275
 
-	while cardindex<15 do
-		cardindex=cardindex+1
-		cardtype=math.random(3)
-		if cardtype==1 then
-			currentcard=defaultattack
-			hasattack=true
-		elseif cardtype==2 then
-			currentcard=defaultmagic
-			hasmagic=true
-		elseif cardtype==3 then
-			currentcard=defaultwild
-			haswild=true
+		while cardindex<15 do
+			cardindex=cardindex+1
+			cardtype=math.random(3)
+			if cardtype==1 then
+				currentcard=defaultattack
+				hasattack=true
+			elseif cardtype==2 then
+				currentcard=defaultmagic
+				hasmagic=true
+			elseif cardtype==3 then
+				currentcard=defaultwild
+				haswild=true
+			end
+			value=math.random(0,9)
+			--if totalcp+currentcard.cp[value+1]>maxcp then
+			--	break
+			--else
+			defaultdeck[cardindex]=currentcard.id+value
+			totalcp=totalcp+currentcard.cp[value+1]
+			--end
 		end
-		value=math.random(0,9)
-		--if totalcp+currentcard.cp[value+1]>maxcp then
-		--	break
-		--else
-		defaultdeck[cardindex]=currentcard.id+value
-		totalcp=totalcp+currentcard.cp[value+1]
-		--end
+	until hasattack and hasmagic and haswild
+
+
+	memory.usememorydomain("ROM")
+
+	--Starting deck
+	memory.writebyte(0xAB8D0,defaultdeck[1]/2)
+	address=0xAB882
+	for i=2,14 do
+		memory.writebyte(address,defaultdeck[i])
+		address=address+6
 	end
-until hasattack and hasmagic and haswild
+	memory.writebyte(0xAB8D8,defaultdeck[15])
 
 
-memory.usememorydomain("ROM")
-
---Starting deck
-memory.writebyte(0xAB8D0,defaultdeck[1]/2)
-address=0xAB882
-for i=2,14 do
-	memory.writebyte(address,defaultdeck[i])
-	address=address+6
-end
-memory.writebyte(0xAB8D8,defaultdeck[15])
-
-
---Floor keyblades
-memory.writebyte(0x62C84,agrabahattack.bit)
-memory.writebyte(0x62C8C,monstroattack.bit)
-memory.writebyte(0x62C94,olympusattack.bit)
-memory.writebyte(0x62C9C,wonderlandattack.bit)
-memory.writebyte(0x62CA4,atlanticaattack.bit)
-memory.writebyte(0x62CAC,neverlandattack.bit)
-memory.writebyte(0x62CB4,hollowbastionattack.bit)
-memory.writebyte(0x62CBC,halloweentownattack.bit)
+	--Floor keyblades
+	memory.writebyte(0x62C84,agrabahattack.bit)
+	memory.writebyte(0x62C8C,monstroattack.bit)
+	memory.writebyte(0x62C94,olympusattack.bit)
+	memory.writebyte(0x62C9C,wonderlandattack.bit)
+	memory.writebyte(0x62CA4,atlanticaattack.bit)
+	memory.writebyte(0x62CAC,neverlandattack.bit)
+	memory.writebyte(0x62CB4,hollowbastionattack.bit)
+	memory.writebyte(0x62CBC,halloweentownattack.bit)
 
 
---Fight rewards
-memory.writebyte(0x62840,leonreward.id/2+math.random(0,4))
-memory.writebyte(0x96B28,axelreward.id+math.random(0,9))
-memory.write_u16_le(0x96BB8,banditreward.id+math.random(0,9))
-memory.writebyte(0x628D0,agrabahreward.id/2+math.random(0,4))
-memory.write_u16_le(0x96B4C,cloudreward.id+math.random(0,9))
-memory.writebyte(0x628E4,olympusreward.id/2+math.random(0,4))
-memory.write_u16_le(0x96BAC,monstroreward.id+math.random(0,4))
-memory.writebyte(0x96B2E,larxeneireward.id+math.random(0,9))
-memory.writebyte(0x628DA,neverlandreward.id/2+math.random(0,4))
-memory.writebyte(0x96B34,rikuireward.id+math.random(0,9))
-memory.writebyte(0x628EE,hundredacrewoodattack.id+math.random(0,9))
-memory.write_u16_le(0x62900,hundredacrewooditem.id+math.random(0,9))
-memory.write_u16_le(0x6290C,hundredacrewoodsummon.id+math.random(0,9))
-memory.writebyte(0x96B68,vexenreward.id/2+math.random(0,4))
-memory.writebyte(0x628B0,destinyislandsreward.id+math.random(0,9))
-memory.writebyte(0x96B70,rikuiiireward.id/2+math.random(0,4))
-memory.writebyte(0x628A2,larxeneiireward.id+math.random(0,9))
+	--Fight rewards
+	memory.writebyte(0x62840,leonreward.id/2+math.random(0,4))
+	memory.writebyte(0x96B28,axelreward.id+math.random(0,9))
+	memory.write_u16_le(0x96BB8,banditreward.id+math.random(0,9))
+	memory.writebyte(0x628D0,agrabahreward.id/2+math.random(0,4))
+	memory.write_u16_le(0x96B4C,cloudreward.id+math.random(0,9))
+	memory.writebyte(0x628E4,olympusreward.id/2+math.random(0,4))
+	memory.write_u16_le(0x96BAC,monstroreward.id+math.random(0,4))
+	memory.writebyte(0x96B2E,larxeneireward.id+math.random(0,9))
+	memory.writebyte(0x628DA,neverlandreward.id/2+math.random(0,4))
+	memory.writebyte(0x96B34,rikuireward.id+math.random(0,9))
+	memory.writebyte(0x628EE,hundredacrewoodattack.id+math.random(0,9))
+	memory.write_u16_le(0x62900,hundredacrewooditem.id+math.random(0,9))
+	memory.write_u16_le(0x6290C,hundredacrewoodsummon.id+math.random(0,9))
+	memory.writebyte(0x96B68,vexenreward.id/2+math.random(0,4))
+	memory.writebyte(0x628B0,destinyislandsreward.id+math.random(0,9))
+	memory.writebyte(0x96B70,rikuiiireward.id/2+math.random(0,4))
+	memory.writebyte(0x628A2,larxeneiireward.id+math.random(0,9))
 
 
---Drop table
-memory.write_u16_le(0x185814E,defaultattack.id)
-memory.write_u16_le(0x185814C,defaultattack.bit)
-memory.write_u16_le(0x1858196,defaultmagic.id)
-memory.write_u16_le(0x1858194,defaultmagic.bit)
-memory.write_u16_le(0x18581CA,defaultitem.id)
-memory.write_u16_le(0x18581C8,defaultitem.bit)
-memory.write_u16_le(0x185819E,defaultwild.id)
-memory.write_u16_le(0x185819C,defaultwild.bit)
-memory.write_u16_le(0x18581AE,leonreward.id)
-memory.write_u16_le(0x18581AC,leonreward.bit)
-memory.write_u16_le(0x1858172,traversetownktr.id)
-memory.write_u16_le(0x1858170,traversetownktr.bit)
-memory.write_u16_le(0x1858192,axelreward.id)
-memory.write_u16_le(0x1858190,axelreward.bit)
-memory.write_u16_le(0x1858156,agrabahattack.id)
-memory.write_u16_le(0x1858154,agrabahattack.bit)
-memory.write_u16_le(0x18581A2,agrabahbounty.id)
-memory.write_u16_le(0x18581A0,agrabahbounty.bit)
-memory.write_u16_le(0x18581D6,banditreward.id)
-memory.write_u16_le(0x18581D4,banditreward.bit)
-memory.write_u16_le(0x18581B2,agrabahreward.id)
-memory.write_u16_le(0x18581B0,agrabahreward.bit)
-memory.write_u16_le(0x1858152,olympusattack.id)
-memory.write_u16_le(0x1858150,olympusattack.bit)
-memory.write_u16_le(0x18581CE,cloudreward.id)
-memory.write_u16_le(0x18581CC,cloudreward.bit)
-memory.write_u16_le(0x18581C6,olympusreward.id)
-memory.write_u16_le(0x18581C4,olympusreward.bit)
-memory.write_u16_le(0x185816E,olympusktr.id)
-memory.write_u16_le(0x185816C,olympusktr.bit)
-memory.write_u16_le(0x1858176,wonderlandattack.id)
-memory.write_u16_le(0x1858174,wonderlandattack.bit)
-memory.write_u16_le(0x18581A6,wonderlandbounty.id)
-memory.write_u16_le(0x18581A4,wonderlandbounty.bit)
-memory.write_u16_le(0x1858166,monstroattack.id)
-memory.write_u16_le(0x1858164,monstroattack.bit)
-memory.write_u16_le(0x18581BA,monstroreward.id)
-memory.write_u16_le(0x18581B8,monstroreward.bit)
-memory.write_u16_le(0x185815E,halloweentownattack.id)
-memory.write_u16_le(0x185815C,halloweentownattack.bit)
-memory.write_u16_le(0x185819A,larxeneireward.id)
-memory.write_u16_le(0x1858198,larxeneireward.bit)
-memory.write_u16_le(0x185815A,atlanticaattack.id)
-memory.write_u16_le(0x1858158,atlanticaattack.bit)
-memory.write_u16_le(0x18581AA,rikuireward.id)
-memory.write_u16_le(0x18581A8,rikuireward.bit)
-memory.write_u16_le(0x1858162,neverlandattack.id)
-memory.write_u16_le(0x1858160,neverlandattack.bit)
-memory.write_u16_le(0x18581BE,neverlandreward.id)
-memory.write_u16_le(0x18581BC,neverlandreward.bit)
-memory.write_u16_le(0x185817A,hollowbastionattack.id)
-memory.write_u16_le(0x1858178,hollowbastionattack.bit)
-memory.write_u16_le(0x18581C2,hollowbastionktr.id)
-memory.write_u16_le(0x18581C0,hollowbastionktr.bit)
-memory.write_u16_le(0x185816A,hundredacrewoodattack.id)
-memory.write_u16_le(0x1858168,hundredacrewoodattack.bit)
-memory.write_u16_le(0x18581B6,hundredacrewoodsummon.id)
-memory.write_u16_le(0x18581B4,hundredacrewoodsummon.bit)
-memory.write_u16_le(0x18581DE,hundredacrewooditem.id)
-memory.write_u16_le(0x18581DC,hundredacrewooditem.bit)
-memory.write_u16_le(0x18581DA,vexenreward.id)
-memory.write_u16_le(0x18581D8,vexenreward.bit)
-memory.write_u16_le(0x185817E,destinyislandsreward.id)
-memory.write_u16_le(0x185817C,destinyislandsreward.bit)
-memory.write_u16_le(0x18581E2,destinyislandsktr.id)
-memory.write_u16_le(0x18581E0,destinyislandsktr.bit)
-memory.write_u16_le(0x18581D2,rikuiiireward.id)
-memory.write_u16_le(0x18581D0,rikuiiireward.bit)
-memory.write_u16_le(0x1858182,larxeneiireward.id)
-memory.write_u16_le(0x1858180,larxeneiireward.bit)
-memory.write_u16_le(0x185818A,postattacka.id)
-memory.write_u16_le(0x1858188,postattacka.bit)
-memory.write_u16_le(0x185818E,postattackb.id)
-memory.write_u16_le(0x185818C,postattackb.bit)
-memory.write_u16_le(0x1858186,finalattack.id)
-memory.write_u16_le(0x1858184,finalattack.bit)
+	--Drop table
+	memory.write_u16_le(0x185814E,defaultattack.id)
+	memory.write_u16_le(0x185814C,defaultattack.bit)
+	memory.write_u16_le(0x1858196,defaultmagic.id)
+	memory.write_u16_le(0x1858194,defaultmagic.bit)
+	memory.write_u16_le(0x18581CA,defaultitem.id)
+	memory.write_u16_le(0x18581C8,defaultitem.bit)
+	memory.write_u16_le(0x185819E,defaultwild.id)
+	memory.write_u16_le(0x185819C,defaultwild.bit)
+	memory.write_u16_le(0x18581AE,leonreward.id)
+	memory.write_u16_le(0x18581AC,leonreward.bit)
+	memory.write_u16_le(0x1858172,traversetownktr.id)
+	memory.write_u16_le(0x1858170,traversetownktr.bit)
+	memory.write_u16_le(0x1858192,axelreward.id)
+	memory.write_u16_le(0x1858190,axelreward.bit)
+	memory.write_u16_le(0x1858156,agrabahattack.id)
+	memory.write_u16_le(0x1858154,agrabahattack.bit)
+	memory.write_u16_le(0x18581A2,agrabahbounty.id)
+	memory.write_u16_le(0x18581A0,agrabahbounty.bit)
+	memory.write_u16_le(0x18581D6,banditreward.id)
+	memory.write_u16_le(0x18581D4,banditreward.bit)
+	memory.write_u16_le(0x18581B2,agrabahreward.id)
+	memory.write_u16_le(0x18581B0,agrabahreward.bit)
+	memory.write_u16_le(0x1858152,olympusattack.id)
+	memory.write_u16_le(0x1858150,olympusattack.bit)
+	memory.write_u16_le(0x18581CE,cloudreward.id)
+	memory.write_u16_le(0x18581CC,cloudreward.bit)
+	memory.write_u16_le(0x18581C6,olympusreward.id)
+	memory.write_u16_le(0x18581C4,olympusreward.bit)
+	memory.write_u16_le(0x185816E,olympusktr.id)
+	memory.write_u16_le(0x185816C,olympusktr.bit)
+	memory.write_u16_le(0x1858176,wonderlandattack.id)
+	memory.write_u16_le(0x1858174,wonderlandattack.bit)
+	memory.write_u16_le(0x18581A6,wonderlandbounty.id)
+	memory.write_u16_le(0x18581A4,wonderlandbounty.bit)
+	memory.write_u16_le(0x1858166,monstroattack.id)
+	memory.write_u16_le(0x1858164,monstroattack.bit)
+	memory.write_u16_le(0x18581BA,monstroreward.id)
+	memory.write_u16_le(0x18581B8,monstroreward.bit)
+	memory.write_u16_le(0x185815E,halloweentownattack.id)
+	memory.write_u16_le(0x185815C,halloweentownattack.bit)
+	memory.write_u16_le(0x185819A,larxeneireward.id)
+	memory.write_u16_le(0x1858198,larxeneireward.bit)
+	memory.write_u16_le(0x185815A,atlanticaattack.id)
+	memory.write_u16_le(0x1858158,atlanticaattack.bit)
+	memory.write_u16_le(0x18581AA,rikuireward.id)
+	memory.write_u16_le(0x18581A8,rikuireward.bit)
+	memory.write_u16_le(0x1858162,neverlandattack.id)
+	memory.write_u16_le(0x1858160,neverlandattack.bit)
+	memory.write_u16_le(0x18581BE,neverlandreward.id)
+	memory.write_u16_le(0x18581BC,neverlandreward.bit)
+	memory.write_u16_le(0x185817A,hollowbastionattack.id)
+	memory.write_u16_le(0x1858178,hollowbastionattack.bit)
+	memory.write_u16_le(0x18581C2,hollowbastionktr.id)
+	memory.write_u16_le(0x18581C0,hollowbastionktr.bit)
+	memory.write_u16_le(0x185816A,hundredacrewoodattack.id)
+	memory.write_u16_le(0x1858168,hundredacrewoodattack.bit)
+	memory.write_u16_le(0x18581B6,hundredacrewoodsummon.id)
+	memory.write_u16_le(0x18581B4,hundredacrewoodsummon.bit)
+	memory.write_u16_le(0x18581DE,hundredacrewooditem.id)
+	memory.write_u16_le(0x18581DC,hundredacrewooditem.bit)
+	memory.write_u16_le(0x18581DA,vexenreward.id)
+	memory.write_u16_le(0x18581D8,vexenreward.bit)
+	memory.write_u16_le(0x185817E,destinyislandsreward.id)
+	memory.write_u16_le(0x185817C,destinyislandsreward.bit)
+	memory.write_u16_le(0x18581E2,destinyislandsktr.id)
+	memory.write_u16_le(0x18581E0,destinyislandsktr.bit)
+	memory.write_u16_le(0x18581D2,rikuiiireward.id)
+	memory.write_u16_le(0x18581D0,rikuiiireward.bit)
+	memory.write_u16_le(0x1858182,larxeneiireward.id)
+	memory.write_u16_le(0x1858180,larxeneiireward.bit)
+	memory.write_u16_le(0x185818A,postattacka.id)
+	memory.write_u16_le(0x1858188,postattacka.bit)
+	memory.write_u16_le(0x185818E,postattackb.id)
+	memory.write_u16_le(0x185818C,postattackb.bit)
+	memory.write_u16_le(0x1858186,finalattack.id)
+	memory.write_u16_le(0x1858184,finalattack.bit)
 
---Shop table
-memory.writebyte(0x10410E,defaultattack.id)
-memory.writebyte(0x104112,defaultmagic.id)
-memory.writebyte(0x104116,defaultitem.id/2)
-memory.write_u16_le(0x1993348,defaultattack.id)
-memory.write_u16_le(0x199334C,defaultattack.bit)
-memory.write_u16_le(0x19934B8,defaultmagic.id)
-memory.write_u16_le(0x19934BC,defaultmagic.bit)
-memory.write_u16_le(0x1993538,defaultitem.id)
-memory.write_u16_le(0x199353C,defaultitem.bit)
-memory.write_u16_le(0x1993468,defaultwild.id)
-memory.write_u16_le(0x199346C,defaultwild.bit)
-memory.write_u16_le(0x19934C8,leonreward.id)
-memory.write_u16_le(0x19934CC,leonreward.bit)
-memory.write_u16_le(0x19933D8,traversetownktr.id)
-memory.write_u16_le(0x19933DC,traversetownktr.bit)
-memory.write_u16_le(0x1993458,axelreward.id)
-memory.write_u16_le(0x199345C,axelreward.bit)
-memory.write_u16_le(0x1993358,agrabahattack.id)
-memory.write_u16_le(0x199335C,agrabahattack.bit)
-memory.write_u16_le(0x1993488,agrabahbounty.id)
-memory.write_u16_le(0x199348C,agrabahbounty.bit)
-memory.write_u16_le(0x1993548,banditreward.id)
-memory.write_u16_le(0x199354C,banditreward.bit)
-memory.write_u16_le(0x19934D8,agrabahreward.id)
-memory.write_u16_le(0x19934DC,agrabahreward.bit)
-memory.write_u16_le(0x1993398,olympusattack.id)
-memory.write_u16_le(0x199339C,olympusattack.bit)
-memory.write_u16_le(0x1993558,cloudreward.id)
-memory.write_u16_le(0x199355C,cloudreward.bit)
-memory.write_u16_le(0x1993528,olympusreward.id)
-memory.write_u16_le(0x199352C,olympusreward.bit)
-memory.write_u16_le(0x19933A8,olympusktr.id)
-memory.write_u16_le(0x19933AC,olympusktr.bit)
-memory.write_u16_le(0x1993388,wonderlandattack.id)
-memory.write_u16_le(0x199338C,wonderlandattack.bit)
-memory.write_u16_le(0x1993498,wonderlandbounty.id)
-memory.write_u16_le(0x199349C,wonderlandbounty.bit)
-memory.write_u16_le(0x1993378,monstroattack.id)
-memory.write_u16_le(0x199337C,monstroattack.bit)
-memory.write_u16_le(0x19934F8,monstroreward.id)
-memory.write_u16_le(0x19934FC,monstroreward.bit)
-memory.write_u16_le(0x1993368,halloweentownattack.id)
-memory.write_u16_le(0x199336C,halloweentownattack.bit)
-memory.write_u16_le(0x1993478,larxeneireward.id)
-memory.write_u16_le(0x199347C,larxeneireward.bit)
-memory.write_u16_le(0x19933B8,atlanticaattack.id)
-memory.write_u16_le(0x19933BC,atlanticaattack.bit)
-memory.write_u16_le(0x19934A8,rikuireward.id)
-memory.write_u16_le(0x19934AC,rikuireward.bit)
-memory.write_u16_le(0x19933C8,neverlandattack.id)
-memory.write_u16_le(0x19933CC,neverlandattack.bit)
-memory.write_u16_le(0x1993508,neverlandreward.id)
-memory.write_u16_le(0x199350C,neverlandreward.bit)
-memory.write_u16_le(0x19933F8,hollowbastionattack.id)
-memory.write_u16_le(0x19933FC,hollowbastionattack.bit)
-memory.write_u16_le(0x1993518,hollowbastionktr.id)
-memory.write_u16_le(0x199351C,hollowbastionktr.bit)
-memory.write_u16_le(0x19933E8,hundredacrewoodattack.id)
-memory.write_u16_le(0x19933EC,hundredacrewoodattack.bit)
-memory.write_u16_le(0x19934E8,hundredacrewoodsummon.id)
-memory.write_u16_le(0x19934EC,hundredacrewoodsummon.bit)
-memory.write_u16_le(0x1993588,hundredacrewooditem.id)
-memory.write_u16_le(0x199358C,hundredacrewooditem.bit)
-memory.write_u16_le(0x1993568,vexenreward.id)
-memory.write_u16_le(0x199356C,vexenreward.bit)
-memory.write_u16_le(0x1993408,destinyislandsreward.id)
-memory.write_u16_le(0x199340C,destinyislandsreward.bit)
-memory.write_u16_le(0x1993598,destinyislandsktr.id)
-memory.write_u16_le(0x199359C,destinyislandsktr.bit)
-memory.write_u16_le(0x1993578,rikuiiireward.id)
-memory.write_u16_le(0x199357C,rikuiiireward.bit)
-memory.write_u16_le(0x1993418,larxeneiireward.id)
-memory.write_u16_le(0x199341C,larxeneiireward.bit)
-memory.write_u16_le(0x1993428,postattacka.id)
-memory.write_u16_le(0x199342C,postattacka.bit)
-memory.write_u16_le(0x1993438,postattackb.id)
-memory.write_u16_le(0x199343C,postattackb.bit)
-memory.write_u16_le(0x1993448,finalattack.id)
-memory.write_u16_le(0x199344C,finalattack.bit)
+	--Shop table
+	memory.writebyte(0x10410E,defaultattack.id)
+	memory.writebyte(0x104112,defaultmagic.id)
+	memory.writebyte(0x104116,defaultitem.id/2)
+	memory.write_u16_le(0x1993348,defaultattack.id)
+	memory.write_u16_le(0x199334C,defaultattack.bit)
+	memory.write_u16_le(0x19934B8,defaultmagic.id)
+	memory.write_u16_le(0x19934BC,defaultmagic.bit)
+	memory.write_u16_le(0x1993538,defaultitem.id)
+	memory.write_u16_le(0x199353C,defaultitem.bit)
+	memory.write_u16_le(0x1993468,defaultwild.id)
+	memory.write_u16_le(0x199346C,defaultwild.bit)
+	memory.write_u16_le(0x19934C8,leonreward.id)
+	memory.write_u16_le(0x19934CC,leonreward.bit)
+	memory.write_u16_le(0x19933D8,traversetownktr.id)
+	memory.write_u16_le(0x19933DC,traversetownktr.bit)
+	memory.write_u16_le(0x1993458,axelreward.id)
+	memory.write_u16_le(0x199345C,axelreward.bit)
+	memory.write_u16_le(0x1993358,agrabahattack.id)
+	memory.write_u16_le(0x199335C,agrabahattack.bit)
+	memory.write_u16_le(0x1993488,agrabahbounty.id)
+	memory.write_u16_le(0x199348C,agrabahbounty.bit)
+	memory.write_u16_le(0x1993548,banditreward.id)
+	memory.write_u16_le(0x199354C,banditreward.bit)
+	memory.write_u16_le(0x19934D8,agrabahreward.id)
+	memory.write_u16_le(0x19934DC,agrabahreward.bit)
+	memory.write_u16_le(0x1993398,olympusattack.id)
+	memory.write_u16_le(0x199339C,olympusattack.bit)
+	memory.write_u16_le(0x1993558,cloudreward.id)
+	memory.write_u16_le(0x199355C,cloudreward.bit)
+	memory.write_u16_le(0x1993528,olympusreward.id)
+	memory.write_u16_le(0x199352C,olympusreward.bit)
+	memory.write_u16_le(0x19933A8,olympusktr.id)
+	memory.write_u16_le(0x19933AC,olympusktr.bit)
+	memory.write_u16_le(0x1993388,wonderlandattack.id)
+	memory.write_u16_le(0x199338C,wonderlandattack.bit)
+	memory.write_u16_le(0x1993498,wonderlandbounty.id)
+	memory.write_u16_le(0x199349C,wonderlandbounty.bit)
+	memory.write_u16_le(0x1993378,monstroattack.id)
+	memory.write_u16_le(0x199337C,monstroattack.bit)
+	memory.write_u16_le(0x19934F8,monstroreward.id)
+	memory.write_u16_le(0x19934FC,monstroreward.bit)
+	memory.write_u16_le(0x1993368,halloweentownattack.id)
+	memory.write_u16_le(0x199336C,halloweentownattack.bit)
+	memory.write_u16_le(0x1993478,larxeneireward.id)
+	memory.write_u16_le(0x199347C,larxeneireward.bit)
+	memory.write_u16_le(0x19933B8,atlanticaattack.id)
+	memory.write_u16_le(0x19933BC,atlanticaattack.bit)
+	memory.write_u16_le(0x19934A8,rikuireward.id)
+	memory.write_u16_le(0x19934AC,rikuireward.bit)
+	memory.write_u16_le(0x19933C8,neverlandattack.id)
+	memory.write_u16_le(0x19933CC,neverlandattack.bit)
+	memory.write_u16_le(0x1993508,neverlandreward.id)
+	memory.write_u16_le(0x199350C,neverlandreward.bit)
+	memory.write_u16_le(0x19933F8,hollowbastionattack.id)
+	memory.write_u16_le(0x19933FC,hollowbastionattack.bit)
+	memory.write_u16_le(0x1993518,hollowbastionktr.id)
+	memory.write_u16_le(0x199351C,hollowbastionktr.bit)
+	memory.write_u16_le(0x19933E8,hundredacrewoodattack.id)
+	memory.write_u16_le(0x19933EC,hundredacrewoodattack.bit)
+	memory.write_u16_le(0x19934E8,hundredacrewoodsummon.id)
+	memory.write_u16_le(0x19934EC,hundredacrewoodsummon.bit)
+	memory.write_u16_le(0x1993588,hundredacrewooditem.id)
+	memory.write_u16_le(0x199358C,hundredacrewooditem.bit)
+	memory.write_u16_le(0x1993568,vexenreward.id)
+	memory.write_u16_le(0x199356C,vexenreward.bit)
+	memory.write_u16_le(0x1993408,destinyislandsreward.id)
+	memory.write_u16_le(0x199340C,destinyislandsreward.bit)
+	memory.write_u16_le(0x1993598,destinyislandsktr.id)
+	memory.write_u16_le(0x199359C,destinyislandsktr.bit)
+	memory.write_u16_le(0x1993578,rikuiiireward.id)
+	memory.write_u16_le(0x199357C,rikuiiireward.bit)
+	memory.write_u16_le(0x1993418,larxeneiireward.id)
+	memory.write_u16_le(0x199341C,larxeneiireward.bit)
+	memory.write_u16_le(0x1993428,postattacka.id)
+	memory.write_u16_le(0x199342C,postattacka.bit)
+	memory.write_u16_le(0x1993438,postattackb.id)
+	memory.write_u16_le(0x199343C,postattackb.bit)
+	memory.write_u16_le(0x1993448,finalattack.id)
+	memory.write_u16_le(0x199344C,finalattack.bit)
 
---Enemy cards
-oldenemycards={shadow,soldier,largebody,rednocturne,bluerhapsody,yellowopera,greenrequiem,powerwild,bouncywild,airsoldier,bandit,fatbandit,barrelspider,searchghost,seaneon,screwdiver,aquatank,wightknight,gargoyle,pirate,airpirate,darkball,defender,wyvern,wizard,neoshadow,whitemushroom,blackfungus,creeperplant,tornadostep,crescendo,guardarmor,parasitecage,trickmaster,cardsoldier,hades,oogieboogie,ursula,hook,riku,axel,larxene,marluxia,lexaeus,ansem}
-oldenemycardsdiv4={darkside,jafar,dragonmaleficent,vexen}
-enemycardsremaining = {unpack(oldenemycards)}
+	--Enemy cards
+	oldenemycards={shadow,soldier,largebody,rednocturne,bluerhapsody,yellowopera,greenrequiem,powerwild,bouncywild,airsoldier,bandit,fatbandit,barrelspider,searchghost,seaneon,screwdiver,aquatank,wightknight,gargoyle,pirate,airpirate,darkball,defender,wyvern,wizard,neoshadow,whitemushroom,blackfungus,creeperplant,tornadostep,crescendo,guardarmor,parasitecage,trickmaster,cardsoldier,hades,oogieboogie,ursula,hook,riku,axel,larxene,marluxia,lexaeus,ansem}
+	oldenemycardsdiv4={darkside,jafar,dragonmaleficent,vexen}
+	enemycardsremaining = {unpack(oldenemycards)}
 
-for i=table.getn(oldenemycards),1,-1 do
-	if (oldenemycards[i].id % 4 == 0) then
-		table.insert(oldenemycardsdiv4,oldenemycards[i])
-		table.remove(enemycardsremaining,i)
-	end
-end
-
-repeat
-	enemycardsdiv4={unpack(oldenemycardsdiv4)}
-	newenemycardsdiv4={}
-	for i=1,table.getn(oldenemycardsdiv4) do
-		newenemycardsdiv4[i]=oldenemycardsdiv4[i]
-		while newenemycardsdiv4[i]==oldenemycardsdiv4[i] do
-			index=math.random(1,table.getn(enemycardsdiv4))
-			newenemycardsdiv4[i]=enemycardsdiv4[index]
+	for i=table.getn(oldenemycards),1,-1 do
+		if (oldenemycards[i].id % 4 == 0) then
+			table.insert(oldenemycardsdiv4,oldenemycards[i])
+			table.remove(enemycardsremaining,i)
 		end
-		table.remove(enemycardsdiv4,index)
 	end
-until newenemycardsdiv4[table.getn(newenemycardsdiv4)]~=oldenemycardsdiv4[table.getn(oldenemycardsdiv4)]
 
-memory.writebyte(darkside.address,newenemycardsdiv4[1].id/4)
-memory.writebyte(jafar.address,newenemycardsdiv4[2].id/4)
-memory.writebyte(dragonmaleficent.address,newenemycardsdiv4[3].id/4)
-memory.writebyte(vexen.address,newenemycardsdiv4[4].id/4)
-
-if spoilers==true then
-	console.clear()
-	print("==========")
-	print("SEED: "..seed)
-	print("==========")
-	print("Darkside Enemy Card: "..newenemycardsdiv4[1].name)
-	print("Jafar Enemy Card: "..newenemycardsdiv4[2].name)
-	print("Dragon Maleficent Enemy Card: "..newenemycardsdiv4[3].name)
-	print("Vexen Enemy Card: "..newenemycardsdiv4[4].name)
-end
-
-table.remove(newenemycardsdiv4,4)
-table.remove(newenemycardsdiv4,3)
-table.remove(newenemycardsdiv4,2)
-table.remove(newenemycardsdiv4,1)
-
-for _, v in pairs(newenemycardsdiv4) do
-	table.insert(enemycardsremaining,v)
-end
-
-repeat
-	enemycards={unpack(enemycardsremaining)}
-	newenemycards={}
-	for i=1,table.getn(oldenemycards) do
-		newenemycards[i]=oldenemycards[i]
-		while newenemycards[i]==oldenemycards[i] do
-			index=math.random(1,table.getn(enemycards))
-			newenemycards[i]=enemycards[index]
+	repeat
+		enemycardsdiv4={unpack(oldenemycardsdiv4)}
+		newenemycardsdiv4={}
+		for i=1,table.getn(oldenemycardsdiv4) do
+			newenemycardsdiv4[i]=oldenemycardsdiv4[i]
+			while newenemycardsdiv4[i]==oldenemycardsdiv4[i] do
+				index=math.random(1,table.getn(enemycardsdiv4))
+				newenemycardsdiv4[i]=enemycardsdiv4[index]
+			end
+			table.remove(enemycardsdiv4,index)
 		end
-		table.remove(enemycards,index)
+	until newenemycardsdiv4[table.getn(newenemycardsdiv4)]~=oldenemycardsdiv4[table.getn(oldenemycardsdiv4)]
+
+	memory.writebyte(darkside.address,newenemycardsdiv4[1].id/4)
+	memory.writebyte(jafar.address,newenemycardsdiv4[2].id/4)
+	memory.writebyte(dragonmaleficent.address,newenemycardsdiv4[3].id/4)
+	memory.writebyte(vexen.address,newenemycardsdiv4[4].id/4)
+
+	if spoilers==true then
+		console.clear()
+		print("==========")
+		print("SEED: "..seed)
+		print("==========")
+		print("Darkside Enemy Card: "..newenemycardsdiv4[1].name)
+		print("Jafar Enemy Card: "..newenemycardsdiv4[2].name)
+		print("Dragon Maleficent Enemy Card: "..newenemycardsdiv4[3].name)
+		print("Vexen Enemy Card: "..newenemycardsdiv4[4].name)
 	end
-until newenemycards[table.getn(newenemycards)]~=oldenemycards[table.getn(oldenemycards)]
 
-for i=1,table.getn(newenemycards) do
-	memory.write_u16_le(oldenemycards[i].address,newenemycards[i].id)
-end
+	table.remove(newenemycardsdiv4,4)
+	table.remove(newenemycardsdiv4,3)
+	table.remove(newenemycardsdiv4,2)
+	table.remove(newenemycardsdiv4,1)
 
---Spoiler display
-if spoilers==true then
-	print("")
-	print("Default Attack: "..defaultattack.name)
-	print("Default Magic: "..defaultmagic.name)
-	print("Default Item: "..defaultitem.name)
-	print("Default Wildcard: "..defaultwild.name)
-	print("")
-	print("Leon Reward: "..leonreward.name)
-	print("Traverse Town KTR: "..traversetownktr.name)
-	print("Axel I Reward: "..axelreward.name)
-	print("Agrabah Attack: "..agrabahattack.name)
-	print("Agrabah Bounty: "..agrabahbounty.name)
-	print("Bandit Reward: "..banditreward.name)
-	print("Agrabah Reward: "..agrabahreward.name)
-	print("Olympus Attack: "..olympusattack.name)
-	print("Cloud Reward: "..cloudreward.name)
-	print("Olympus Reward: "..olympusreward.name)
-	print("Olympus KTR: "..olympusktr.name)
-	print("Wonderland Attack: "..wonderlandattack.name)
-	print("Wonderland Bounty: "..wonderlandbounty.name)
-	print("Monstro Attack: "..monstroattack.name)
-	print("Monstro Reward: "..monstroreward.name)
-	print("Halloween Town Attack: "..halloweentownattack.name)
-	print("Larxene I Reward: "..larxeneireward.name)
-	print("Atlantica Attack: "..atlanticaattack.name)
-	print("Riku I Reward: "..rikuireward.name)
-	print("Neverland Attack: "..neverlandattack.name)
-	print("Neverland Reward: "..neverlandreward.name)
-	print("Hollow Bastion Attack: "..hollowbastionattack.name)
-	print("Hollow Bastion KTR: "..hollowbastionktr.name)
-	print("100 Acre Wood Attack: "..hundredacrewoodattack.name)
-	print("100 Acre Wood Summon: "..hundredacrewoodsummon.name)
-	print("100 Acre Wood Item: "..hundredacrewooditem.name)
-	print("Vexen I Reward: "..vexenreward.name)
-	print("Destiny Islands Reward: "..destinyislandsreward.name)
-	print("Destiny Islands KTR: "..destinyislandsktr.name)
-	print("Riku III Reward: "..rikuiiireward.name)
-	print("Larxene II Reward: "..larxeneiireward.name)
-	print("Post-game Attack A: "..postattacka.name)
-	print("Post-game Attack B: "..postattackb.name)
-	print("Final Attack: "..finalattack.name)
-	print("")
+	for _, v in pairs(newenemycardsdiv4) do
+		table.insert(enemycardsremaining,v)
+	end
+
+	repeat
+		enemycards={unpack(enemycardsremaining)}
+		newenemycards={}
+		for i=1,table.getn(oldenemycards) do
+			newenemycards[i]=oldenemycards[i]
+			while newenemycards[i]==oldenemycards[i] do
+				index=math.random(1,table.getn(enemycards))
+				newenemycards[i]=enemycards[index]
+			end
+			table.remove(enemycards,index)
+		end
+	until newenemycards[table.getn(newenemycards)]~=oldenemycards[table.getn(oldenemycards)]
+
 	for i=1,table.getn(newenemycards) do
-		print(oldenemycards[i].name.." Enemy Card: "..newenemycards[i].name)
+		memory.write_u16_le(oldenemycards[i].address,newenemycards[i].id)
 	end
+
+	--Spoiler display
+	if spoilers==true then
+		print("")
+		print("Default Attack: "..defaultattack.name)
+		print("Default Magic: "..defaultmagic.name)
+		print("Default Item: "..defaultitem.name)
+		print("Default Wildcard: "..defaultwild.name)
+		print("")
+		print("Leon Reward: "..leonreward.name)
+		print("Traverse Town KTR: "..traversetownktr.name)
+		print("Axel I Reward: "..axelreward.name)
+		print("Agrabah Attack: "..agrabahattack.name)
+		print("Agrabah Bounty: "..agrabahbounty.name)
+		print("Bandit Reward: "..banditreward.name)
+		print("Agrabah Reward: "..agrabahreward.name)
+		print("Olympus Attack: "..olympusattack.name)
+		print("Cloud Reward: "..cloudreward.name)
+		print("Olympus Reward: "..olympusreward.name)
+		print("Olympus KTR: "..olympusktr.name)
+		print("Wonderland Attack: "..wonderlandattack.name)
+		print("Wonderland Bounty: "..wonderlandbounty.name)
+		print("Monstro Attack: "..monstroattack.name)
+		print("Monstro Reward: "..monstroreward.name)
+		print("Halloween Town Attack: "..halloweentownattack.name)
+		print("Larxene I Reward: "..larxeneireward.name)
+		print("Atlantica Attack: "..atlanticaattack.name)
+		print("Riku I Reward: "..rikuireward.name)
+		print("Neverland Attack: "..neverlandattack.name)
+		print("Neverland Reward: "..neverlandreward.name)
+		print("Hollow Bastion Attack: "..hollowbastionattack.name)
+		print("Hollow Bastion KTR: "..hollowbastionktr.name)
+		print("100 Acre Wood Attack: "..hundredacrewoodattack.name)
+		print("100 Acre Wood Summon: "..hundredacrewoodsummon.name)
+		print("100 Acre Wood Item: "..hundredacrewooditem.name)
+		print("Vexen I Reward: "..vexenreward.name)
+		print("Destiny Islands Reward: "..destinyislandsreward.name)
+		print("Destiny Islands KTR: "..destinyislandsktr.name)
+		print("Riku III Reward: "..rikuiiireward.name)
+		print("Larxene II Reward: "..larxeneiireward.name)
+		print("Post-game Attack A: "..postattacka.name)
+		print("Post-game Attack B: "..postattackb.name)
+		print("Final Attack: "..finalattack.name)
+		print("")
+		for i=1,table.getn(newenemycards) do
+			print(oldenemycards[i].name.." Enemy Card: "..newenemycards[i].name)
+		end
+	end
+
+	gui.addmessage("Cards Randomized! Should be good to go!")
+	gui.addmessage("Don't forget to save your seed at the top of the Lua Console!")
+	print("")
+	print("Cards Randomized! Should be good to go!")
+	print("Don't forget to save your seed!")
+	print("SEED: " ..seed)
+
+	joypad.set({["A"]=true,["B"]=true,["Select"]=true,["Start"]=true})
 end
-
-joypad.set({["A"]=true,["B"]=true,["Select"]=true,["Start"]=true})
-
 --Original Code by Cheeze42.
 --All other modifications by Jfzzblls / Jersh / Jorsh
 --Changes 10/25/2022:
 --  Fixed the Printing of the Spoiler Log. It now prints the seed and all card randomizations to the Lua Console in Bizhawk.
+--Changes 10/25/2022:
+--  Made a Seed Input Dialog, and jammed the randomization into a function. The Dialog Comes up first, and asks for a Valid Seed (number based only), then it calls upon "Start Rando()" as a function. This allows easily loading seed numbers from Bizhawk, and not editing the file.
