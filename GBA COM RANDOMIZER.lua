@@ -89,7 +89,7 @@ ansem={name="Ansem",id=0x234,address=0x18581EA}
 
 --CONFIG
 --Set 02039CBC to FF, 02039CC4 to 22, and 02039CC5 to 80 for all level up sleights
-spoilers=false
+spoilers=true
 seed=0
 
 oldcards={kingdomkey,threewishes,crabclaw,pumpkinhead,fairyharp,wishingstar,spellbinder,metalchocobo,olympia,lionheart,ladyluck,divinerose,oathkeeper,oblivion,diamonddust,onewingedangel,ultimaweapon,fire,blizzard,thunder,cure,gravity,stop,aero,simba,genie,bambi,dumbo,tinkerbell,mushu,cloud,potion,hipotion,megapotion,ether,megaether,elixir,megalixir}
@@ -105,7 +105,7 @@ math.random()
 math.random()
 math.random()
 
---TODO:
+--TODO(Originally written by Cheeze42):
 ---Variety of randomization
 ----Sleights
 ----World cards
@@ -698,6 +698,9 @@ memory.writebyte(vexen.address,newenemycardsdiv4[4].id/4)
 
 if spoilers==true then
 	console.clear()
+	print("==========")
+	print("SEED: "..seed)
+	print("==========")
 	print("Darkside Enemy Card: "..newenemycardsdiv4[1].name)
 	print("Jafar Enemy Card: "..newenemycardsdiv4[2].name)
 	print("Dragon Maleficent Enemy Card: "..newenemycardsdiv4[3].name)
@@ -732,12 +735,12 @@ end
 
 --Spoiler display
 if spoilers==true then
-	print()
+	print("")
 	print("Default Attack: "..defaultattack.name)
 	print("Default Magic: "..defaultmagic.name)
 	print("Default Item: "..defaultitem.name)
 	print("Default Wildcard: "..defaultwild.name)
-	print()
+	print("")
 	print("Leon Reward: "..leonreward.name)
 	print("Traverse Town KTR: "..traversetownktr.name)
 	print("Axel I Reward: "..axelreward.name)
@@ -772,10 +775,15 @@ if spoilers==true then
 	print("Post-game Attack A: "..postattacka.name)
 	print("Post-game Attack B: "..postattackb.name)
 	print("Final Attack: "..finalattack.name)
-	print()
+	print("")
 	for i=1,table.getn(newenemycards) do
 		print(oldenemycards[i].name.." Enemy Card: "..newenemycards[i].name)
 	end
 end
 
 joypad.set({["A"]=true,["B"]=true,["Select"]=true,["Start"]=true})
+
+--Original Code by Cheeze42.
+--All other modifications by Jfzzblls / Jersh / Jorsh
+--Changes 10/25/2022:
+--  Fixed the Printing of the Spoiler Log. It now prints the seed and all card randomizations to the Lua Console in Bizhawk.
