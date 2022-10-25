@@ -3,7 +3,7 @@ The above LUA script is a recovered copy of cheeze42's original Kingdom Hearts: 
 
 It was originally removed from his Github account, but has been reuploaded with permission from the Author, here.
 
-I won't be making any changes to the original file, as I want the original copy to stay in tact. 
+I won't be making many changes to the original file, as I want the original copy to stay in tact, but I'll improve what I can. 
 
 It was as close to being unedited as I remember, and is functional, however it appears to be in a WIP state at the time I downloaded it.
 
