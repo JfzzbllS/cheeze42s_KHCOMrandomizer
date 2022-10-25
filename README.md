@@ -5,7 +5,7 @@ It was originally removed from his Github account, but has been reuploaded with 
 
 I won't be making any changes to the original file, as I want the original copy to stay in tact. 
 
-It is as close to being unedited as I remember, and is functional, however it appears to be in a WIP state at the time I downloaded it.
+It was as close to being unedited as I remember, and is functional, however it appears to be in a WIP state at the time I downloaded it.
 
 # Instalation 
 
@@ -25,26 +25,27 @@ To use,
 4. Once it has opened, make sure no other scripts have been loaded, or conflicting, then go to `Script > Open Script` 
   In the new window, select the `.Lua` file you saved earlier. 
   
-5. Make sure you get a message in the `Output` side of the Console that reads `"Seed: xxxxxxxxxxx"`
+5. You will be asked to put in a seed. If you do not have a seed, just leave this as "0" and it will make a new seed.
 
-6. You're done! You can enjoy a randomized version of Chain of Memories now! The script should only run once and stop, so you can close the Lua Console when you are done. **However, if you close Bizhawk from this point, you will lose your saved game and randomized seed. **
+6. Click "Load Seed"
 
-7. (Recommended) I highly suggest you write down or copy your seed to a file, or a notepad, as there is no *easy* way to load the seed if you crash/close Bizhawk.
+7. You're done! You can enjoy a randomized version of Chain of Memories now! The script should only run once and stop, so you can close the Lua Console when you are done. **However, if you close Bizhawk from this point, you will lose your saved game and randomized seed. **
+
+8. (Recommended) I highly suggest you write down or copy your seed to a file, or a notepad. If you close Bizhawk, all the randomization is lost.
 
 # Loading a Seed 
 
-If you crash or close Bizhawk, all of the ram values for your seed get wiped and the randomization is gone...
+If you crash or close Bizhawk, all of the values for your seed get wiped and the randomization is gone...
 
 However, you can have the script reuse your seed again to "place all the cards back" and keep playing after you close Bizhawk. 
 
 1. Copy your seed number EXACTLY as displayed. So if it says `"Seed: 12345678"` write down `"12345678"`
 
-2. If you would like to have the Script use the seed again, open the `.Lua` file with a text editor, and scroll to line **93**.
-  It should say `seed=0`. Zero tells the script to *make* a new seed every time you launch the script in the Lua Console. 
+2. If you would like to have the Script use the seed again, re-open the `.Lua` file. Just as you did before.
   
-3. Replace `seed=0` with your seed number. In this example your seed would be `seed=12345678`.
+3. Replace `0` in the textbox with your seed number. In this example your seed would be `12345678`.
 
-4. Reopen Bizhawk, Load Chain of Memories again, and go to `Tools > Lua Console`.
+4. Click "Load Seed".
 
 5. Select the `.Lua` file again, just like before.
 
@@ -52,7 +53,6 @@ However, you can have the script reuse your seed again to "place all the cards b
 
 7. You can load the game from an in game save, and should be good to go. 
 
-8. (Optional) To go back to new randomized seeds, reverse these steps and set `seed=` to `0` again. 
 There are a few things to note, before you play however...
 
 # FAQ / Things to note...
@@ -61,7 +61,7 @@ There are a few things to note, before you play however...
 
 * If it looks like your cards aren't random in the start, wait a bit and keep playing. The tutorial fights (with the hooded figure/Leon fight) are not randomized. The game keeps extra sets of decks with specific cards for those fights, and nothing will look different or be changed for those.
 
-* Play up until you fight the first heartless in the save room, there your "normal/default" deck of cards are loaded. Those should look different.
+* Play up until you fight the first heartless in the save room, there your "normal/randomized" deck of cards are loaded. Those should look different.
 
 * World Cards are untouched. (I think)
   This means that your reward for encounters and door requirements should all be the same. (Should...)
