@@ -47,11 +47,9 @@ However, you can have the script reuse your seed again to "place all the cards b
 
 4. Click "Load Seed".
 
-5. Select the `.Lua` file again, just like before.
+5. Done! Your seed will be rewritten to the game. To verify, make sure that the `Output` in the console reads `Seed: 12345678` (or whatever number you have).
 
-6. Done! Your seed will be rewritten to the game. To verify, make sure that the `Output` in the console reads `Seed: 12345678` (or whatever number you have).
-
-7. You can load the game from an in game save, and should be good to go. 
+6. You can load the game from an in game save, and should be good to go. 
 
 There are a few things to note, before you play however...
 
