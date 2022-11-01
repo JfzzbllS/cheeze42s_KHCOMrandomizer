@@ -114,18 +114,23 @@ function check_seed()
 		forms.label(diag_err, "Only NUMBERS please, try again", 0, 20, 200, 20)
 		forms.button(diag_err, "Ok...", err_go_away, 50, 40, 50, 20)
 	else
+	--Good to go, start randoing
+	console.clear()
 	seed = seedinput
+	spoilers = forms.ischecked(spoilbox)
 	diag_go_away()
 	start_rando()
 	end
 end
 
-diag = forms.newform(200, 140, "Please enter a seed")
+--Seed Input box
+diag = forms.newform(200, 160, "Please enter a seed")
 forms.label(diag, "Please enter a valid Seed", 25, 0, 200, 20)
 forms.label(diag, "ONLY NUMBERS, NO LETTERS", 10, 20, 200, 20)
 forms.label(diag, "Leave '0' for random seed", 25, 40, 200, 20)
 seedbox = forms.textbox(diag, "0", 100, 20, "null", 45, 60, false, false)
-forms.button(diag, "Load Seed", check_seed, 45, 80, 100, 20)
+forms.button(diag, "Load Seed", check_seed, 45, 100, 100, 20)
+spoilbox = forms.checkbox(diag, "Print Spoilers?", 50, 80)
 
 --END CHECK SEED NUMBER
 
@@ -831,3 +836,5 @@ end
 --  Fixed the Printing of the Spoiler Log. It now prints the seed and all card randomizations to the Lua Console in Bizhawk.
 --Changes 10/25/2022:
 --  Made a Seed Input Dialog, and jammed the randomization into a function. The Dialog Comes up first, and asks for a Valid Seed (number based only), then it calls upon "Start Rando()" as a function. This allows easily loading seed numbers from Bizhawk, and not editing the file.
+--Changes 11/1/2022:
+--	Added a check box to print spoilers to the Lua Console or not. Also Clears the console window on correctly starting rando. 
